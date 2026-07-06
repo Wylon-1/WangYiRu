@@ -2,11 +2,23 @@
 <html lang="zh-CN">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>DataViz - 数据可视化图表生成器</title>
 <script src="https://cdn.jsdelivr.net/npm/pptxgenjs@3.12.0/dist/pptxgen.bundle.js"></script>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;600;700&family=Roboto+Mono:wght@400;500&display=swap');
+
+:root{
+  --primary-color:#0070a0;
+  --primary-rgb:0,112,160;
+  --accent-2:#2c90c9;
+  --accent-3:#1b9cca;
+  --accent-4:#66c7a0;
+  --accent-5:#faea73;
+  --accent-6:#e07a5f;
+  --accent-7:#81b29a;
+  --accent-8:#f2cc8f;
+}
 
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
 html{font-family:'Noto Sans SC',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;-webkit-font-smoothing:antialiased}
@@ -21,13 +33,13 @@ body{background:#101010;color:#f5f5f5;min-height:100vh}
 .nav.scrolled{background:rgba(16,16,16,.85);backdrop-filter:blur(12px)}
 .nav-inner{max-width:1440px;width:100%;margin:0 auto;display:flex;align-items:center;justify-content:space-between}
 .nav-brand{display:flex;align-items:center;gap:10px}
-.nav-brand .logo{width:32px;height:32px;border-radius:8px;background:linear-gradient(135deg,#0070a0,#1b9cca);display:flex;align-items:center;justify-content:center}
+.nav-brand .logo{width:32px;height:32px;border-radius:8px;background:linear-gradient(135deg,var(--primary-color),var(--accent-3));display:flex;align-items:center;justify-content:center}
 .nav-brand .logo svg{width:18px;height:18px;color:#fff}
 .nav-brand span{font-size:16px;font-weight:600;letter-spacing:.5px;color:#f5f5f5}
 .nav-actions{display:flex;align-items:center;gap:12px}
 
 .btn{display:inline-flex;align-items:center;gap:6px;padding:7px 16px;border-radius:6px;font-size:13px;font-weight:500;cursor:pointer;transition:all .2s;border:none;font-family:inherit;line-height:1.5}
-.btn-primary{background:linear-gradient(135deg,#0070a0,#1b9cca);color:#fff;position:relative;overflow:hidden}
+.btn-primary{background:linear-gradient(135deg,var(--primary-color),var(--accent-3));color:#fff;position:relative;overflow:hidden}
 .btn-primary:hover{opacity:.9;transform:translateY(-1px)}
 .btn-ghost{background:transparent;color:#a0a0a0}
 .btn-ghost:hover{color:#f5f5f5;background:rgba(255,255,255,.05)}
@@ -39,17 +51,17 @@ body{background:#101010;color:#f5f5f5;min-height:100vh}
 .btn-primary:hover::after{left:150%}
 
 .hero{position:relative;padding-top:56px;min-height:260px}
-.hero-bg{position:absolute;inset:0;background:radial-gradient(ellipse at 30% 50%,rgba(0,112,160,.15) 0%,transparent 60%),radial-gradient(ellipse at 70% 30%,rgba(27,156,202,.08) 0%,transparent 50%)}
+.hero-bg{position:absolute;inset:0;background:radial-gradient(ellipse at 30% 50%,rgba(var(--primary-rgb),.15) 0%,transparent 60%),radial-gradient(ellipse at 70% 30%,rgba(27,156,202,.08) 0%,transparent 50%)}
 .hero-inner{position:relative;max-width:1440px;margin:0 auto;padding:48px 24px 32px}
-.hero h1{font-size:42px;font-weight:700;line-height:1.15;letter-spacing:-.02em;margin-bottom:12px}
-.hero h1 .gradient{background:linear-gradient(135deg,#0070a0,#1b9cca);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.hero h1{font-size:42px;font-weight:700;line-height:1.15;letter-spacing:-.02em;margin-bottom:12px;word-break:break-word}
+.hero h1 .gradient{background:linear-gradient(135deg,var(--primary-color),var(--accent-3));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
 .hero p{font-size:15px;color:#a0a0a0;line-height:1.7;max-width:480px}
 
 .stats-bar{border-top:1px solid #222;border-bottom:1px solid #222;background:#141414}
 .stats-inner{max-width:1440px;margin:0 auto;padding:14px 24px;display:flex;align-items:center;gap:40px;flex-wrap:wrap}
 .stat-item{display:flex;flex-direction:column;gap:3px}
-.stat-label{font-size:12px;color:#666}
-.stat-value{font-size:20px;font-weight:600;color:#f5f5f5;font-family:'Roboto Mono','Noto Sans SC',monospace}
+.stat-label{font-size:12px;color:#666;white-space:nowrap}
+.stat-value{font-size:20px;font-weight:600;color:#f5f5f5;font-family:'Roboto Mono','Noto Sans SC',monospace;white-space:nowrap}
 
 .main{max-width:1440px;margin:0 auto;padding:28px 24px}
 .main-grid{display:flex;gap:20px}
@@ -57,15 +69,15 @@ body{background:#101010;color:#f5f5f5;min-height:100vh}
 .panel{border-radius:10px;background:#161616;border:1px solid #222;overflow:hidden}
 .panel-header{display:flex;align-items:center;justify-content:space-between;padding:12px 16px;border-bottom:1px solid #222}
 .panel-header h2{display:flex;align-items:center;gap:8px;font-size:14px;font-weight:500;color:#f5f5f5}
-.panel-header h2 svg{width:16px;height:16px;color:#0070a0}
+.panel-header h2 svg{width:16px;height:16px;color:var(--primary-color);flex-shrink:0}
 
 .data-panel{width:480px;flex-shrink:0}
-.col-headers{display:grid;grid-template-columns:100px 1fr 100px 36px 36px;gap:4px;padding:8px 16px;background:#1a1a1a;font-size:12px;color:#666;font-weight:500}
+.col-headers{display:grid;grid-template-columns:90px 1fr 90px 36px 36px;gap:6px;padding:8px 16px;background:#1a1a1a;font-size:12px;color:#666;font-weight:500}
 .data-rows{max-height:460px;overflow-y:auto}
-.data-row{display:grid;grid-template-columns:100px 1fr 100px 36px 36px;gap:4px;padding:6px 16px;align-items:center;border-bottom:1px solid #1a1a1a;transition:background .15s}
-.data-row:hover{background:rgba(0,112,160,.06)}
-.data-row input{width:100%;height:32px;padding:0 10px;border-radius:5px;border:1px solid #2a2a2a;background:#1a1a1a;color:#f5f5f5;font-size:13px;font-family:inherit;transition:border-color .2s}
-.data-row input:focus{border-color:#0070a0;outline:none}
+.data-row{display:grid;grid-template-columns:90px 1fr 90px 36px 36px;gap:6px;padding:6px 16px;align-items:center;border-bottom:1px solid #1a1a1a;transition:background .15s}
+.data-row:hover{background:rgba(var(--primary-rgb),.06)}
+.data-row input{width:100%;height:32px;padding:0 10px;border-radius:5px;border:1px solid #2a2a2a;background:#1a1a1a;color:#f5f5f5;font-size:13px;font-family:inherit;transition:border-color .2s;min-width:0}
+.data-row input:focus{border-color:var(--primary-color);outline:none}
 .data-row input[type="number"]{font-family:'Roboto Mono','Noto Sans SC',monospace}
 .row-arrows{display:flex;flex-direction:column;align-items:center}
 .row-arrows button{background:none;border:none;color:#666;cursor:pointer;padding:0;display:flex;align-items:center;justify-content:center;height:14px;transition:color .2s}
@@ -76,13 +88,13 @@ body{background:#101010;color:#f5f5f5;min-height:100vh}
 .panel-footer{display:flex;align-items:center;justify-content:space-between;padding:10px 16px;border-top:1px solid #222}
 .panel-footer .count{font-size:12px;color:#555}
 
-.chart-panel{flex:1;min-width:0;box-shadow:0 0 20px rgba(0,112,160,.08)}
+.chart-panel{flex:1;min-width:0;box-shadow:0 0 20px rgba(var(--primary-rgb),.08)}
 .chart-header{display:flex;align-items:center;justify-content:space-between;padding:12px 20px;border-bottom:1px solid #222;flex-wrap:wrap;gap:10px}
-.chart-header-left{display:flex;align-items:center;gap:8px}
-.chart-header-left svg{width:16px;height:16px;color:#0070a0}
-.chart-header-left input{background:transparent;border:none;color:#f5f5f5;font-size:14px;font-weight:500;font-family:inherit;width:240px;padding:4px 8px;border-radius:4px;transition:background .2s}
+.chart-header-left{display:flex;align-items:center;gap:8px;flex-wrap:wrap;min-width:0;flex:1}
+.chart-header-left svg{width:16px;height:16px;color:var(--primary-color);flex-shrink:0}
+.chart-header-left input{background:transparent;border:none;color:#f5f5f5;font-size:14px;font-weight:500;font-family:inherit;flex:1;min-width:120px;max-width:240px;padding:4px 8px;border-radius:4px;transition:background .2s}
 .chart-header-left input:focus{outline:none;background:rgba(255,255,255,.04)}
-.chart-header-right{display:flex;align-items:center;gap:8px}
+.chart-header-right{display:flex;align-items:center;gap:8px;flex-shrink:0}
 .chart-area{padding:20px;height:450px;position:relative}
 
 .svg-chart{width:100%;height:100%}
@@ -95,30 +107,63 @@ body{background:#101010;color:#f5f5f5;min-height:100vh}
 .features-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
 .feature-card{border-radius:10px;padding:24px;background:#161616;border:1px solid #222;transition:border-color .2s}
 .feature-card:hover{border-color:#333}
-.feature-icon{width:40px;height:40px;border-radius:8px;background:rgba(0,112,160,.1);display:flex;align-items:center;justify-content:center;margin-bottom:16px}
-.feature-icon svg{width:20px;height:20px;color:#0070a0}
+.feature-icon{width:40px;height:40px;border-radius:8px;background:rgba(var(--primary-rgb),.1);display:flex;align-items:center;justify-content:center;margin-bottom:16px}
+.feature-icon svg{width:20px;height:20px;color:var(--primary-color);flex-shrink:0}
 .feature-card h3{font-size:14px;font-weight:600;color:#f5f5f5;margin-bottom:8px}
 .feature-card p{font-size:13px;color:#888;line-height:1.7}
 
 .footer{border-top:1px solid #1a1a1a;background:#0c0c0c}
-.footer-inner{max-width:1440px;margin:0 auto;padding:20px 24px;display:flex;align-items:center;justify-content:space-between}
+.footer-inner{max-width:1440px;margin:0 auto;padding:20px 24px;display:flex;align-items:center;justify-content:space-between;gap:12px}
 .footer-brand{display:flex;align-items:center;gap:8px}
-.footer-brand .logo-sm{width:24px;height:24px;border-radius:5px;background:linear-gradient(135deg,#0070a0,#1b9cca);display:flex;align-items:center;justify-content:center}
+.footer-brand .logo-sm{width:24px;height:24px;border-radius:5px;background:linear-gradient(135deg,var(--primary-color),var(--accent-3));display:flex;align-items:center;justify-content:center}
 .footer-brand .logo-sm svg{width:14px;height:14px;color:#fff}
 .footer-brand span{font-size:12px;color:#555;font-weight:500}
-.footer-copy{font-size:12px;color:#333}
+.footer-copy{font-size:12px;color:#333;white-space:nowrap}
 
 #importFile{display:none}
+
+/* Theme picker */
+.theme-bar{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.theme-bar label{font-size:12px;color:#888}
+.theme-swatches{display:flex;gap:5px;align-items:center}
+.theme-swatch{width:20px;height:20px;border-radius:50%;cursor:pointer;border:2px solid transparent;transition:all .2s}
+.theme-swatch:hover{transform:scale(1.15)}
+.theme-swatch.active{border-color:#fff;box-shadow:0 0 0 2px rgba(255,255,255,.25)}
+.theme-picker-wrapper{display:flex;align-items:center;gap:6px}
+.theme-picker-wrapper input[type="color"]{width:28px;height:28px;border:none;border-radius:50%;cursor:pointer;background:none;padding:0;overflow:hidden}
+.theme-picker-wrapper input[type="color"]::-webkit-color-swatch-wrapper{padding:0}
+.theme-picker-wrapper input[type="color"]::-webkit-color-swatch{border:2px solid #444;border-radius:50%}
 
 @media(max-width:1024px){
   .main-grid{flex-direction:column}
   .data-panel{width:100%}
   .features-grid{grid-template-columns:1fr}
 }
+
 @media(max-width:640px){
-  .hero h1{font-size:28px}
-  .stats-inner{gap:20px}
-  .chart-area{height:320px}
+  .nav{padding:0 12px;height:48px}
+  .nav-brand span{font-size:14px}
+  .nav-actions{gap:6px}
+  .btn-sm{padding:4px 10px;font-size:11px}
+  .hero{padding-top:48px;min-height:auto}
+  .hero-inner{padding:28px 16px 20px}
+  .hero h1{font-size:24px;line-height:1.3;letter-spacing:0}
+  .hero p{font-size:13px}
+  .stats-inner{gap:12px 20px;padding:10px 16px}
+  .stat-item{min-width:60px}
+  .stat-value{font-size:15px}
+  .main{padding:16px}
+  .col-headers{grid-template-columns:60px 1fr 60px 30px 30px;gap:4px;padding:6px 10px;font-size:11px}
+  .data-row{grid-template-columns:60px 1fr 60px 30px 30px;padding:4px 10px;gap:4px}
+  .data-row input{height:30px;padding:0 6px;font-size:12px}
+  .row-del{width:24px;height:24px}
+  .chart-area{height:300px;padding:12px}
+  .chart-header{padding:10px 12px}
+  .chart-header-left input{width:100%;max-width:none;min-width:80px}
+  .theme-bar{width:100%;justify-content:flex-start;margin-top:4px}
+  .features{padding:0 16px 32px}
+  .feature-card{padding:16px}
+  .footer-inner{padding:16px;flex-wrap:wrap}
 }
 </style>
 </head>
@@ -180,7 +225,7 @@ body{background:#101010;color:#f5f5f5;min-height:100vh}
       <div class="col-headers"><span>时间</span><span>名称</span><span>数值</span><span></span><span></span></div>
       <div class="data-rows" id="dataRows"></div>
       <div class="panel-footer">
-        <button class="btn btn-ghost btn-xs" onclick="addRow()" style="color:#0070a0">
+        <button class="btn btn-ghost btn-xs" onclick="addRow()" style="color:var(--primary-color)">
           <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-right:4px"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
           添加数据行
         </button>
@@ -193,6 +238,12 @@ body{background:#101010;color:#f5f5f5;min-height:100vh}
         <div class="chart-header-left">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 3v18h18"/><path d="M7 16l4-8 4 4 4-6"/></svg>
           <input type="text" id="chartTitle" value="数据图表报告" oninput="renderChart()">
+          <div class="theme-bar">
+            <span class="theme-swatches" id="themeSwatches"></span>
+            <div class="theme-picker-wrapper">
+              <input type="color" id="customColor" value="#0070a0" title="自定义颜色" onchange="setCustomColor(this.value)">
+            </div>
+          </div>
         </div>
         <div class="chart-header-right">
           <button class="btn btn-primary btn-sm" onclick="exportPPTX()">
@@ -252,9 +303,120 @@ body{background:#101010;color:#f5f5f5;min-height:100vh}
 </footer>
 
 <script>
+// ===================== THEME / COLORS =====================
+const PRESET_THEMES = [
+  {name:'科技蓝',color:'#0070a0'},
+  {name:'翡翠绿',color:'#2d8a5e'},
+  {name:'珊瑚橙',color:'#e07a5f'},
+  {name:'紫罗兰',color:'#7c5cff'},
+  {name:'玫瑰红',color:'#c94f7c'},
+  {name:'明黄',color:'#d4a017'},
+];
+
+let currentColor = '#0070a0';
+
+function generatePalette(baseHex){
+  const rgb = hexToRgb(baseHex);
+  const hsl = rgbToHsl(rgb.r, rgb.g, rgb.b);
+  const colors = [];
+  const pptxColors = [];
+
+  for(let i=0;i<8;i++){
+    const h = (hsl.h + i * 45) % 360;
+    const s = Math.max(30, Math.min(90, hsl.s + (i%2===0 ? 8 : -5)));
+    const l = Math.max(30, Math.min(70, hsl.l + (i%3===0 ? 12 : i%3===1 ? -8 : 0)));
+    const rgb2 = hslToRgb(h, s, l);
+    const hex = rgbToHex(rgb2.r, rgb2.g, rgb2.b);
+    colors.push(hex);
+    pptxColors.push(hex.replace('#','').toUpperCase());
+  }
+  return {colors, pptxColors};
+}
+
+function hexToRgb(hex){
+  const r = parseInt(hex.slice(1,3),16);
+  const g = parseInt(hex.slice(3,5),16);
+  const b = parseInt(hex.slice(5,7),16);
+  return {r,g,b};
+}
+function rgbToHex(r,g,b){
+  return '#'+[r,g,b].map(x=>Math.round(x).toString(16).padStart(2,'0')).join('');
+}
+function rgbToHsl(r,g,b){
+  r/=255; g/=255; b/=255;
+  const max=Math.max(r,g,b), min=Math.min(r,g,b);
+  let h=0,s=0,l=(max+min)/2;
+  if(max!==min){
+    const d=max-min;
+    s=l>0.5?d/(2-max-min):d/(max+min);
+    switch(max){
+      case r: h=((g-b)/d+(g<b?6:0)); break;
+      case g: h=((b-r)/d+2); break;
+      case b: h=((r-g)/d+4); break;
+    }
+    h*=60;
+  }
+  return {h,s:s*100,l:l*100};
+}
+function hslToRgb(h,s,l){
+  s/=100; l/=100;
+  const c=(1-Math.abs(2*l-1))*s;
+  const x=c*(1-Math.abs((h/60)%2-1));
+  const m=l-c/2;
+  let r=0,g=0,b=0;
+  if(h<60){r=c;g=x;b=0;}
+  else if(h<120){r=x;g=c;b=0;}
+  else if(h<180){r=0;g=c;b=x;}
+  else if(h<240){r=0;g=x;b=c;}
+  else if(h<300){r=x;g=0;b=c;}
+  else{r=c;g=0;b=x;}
+  return {r:(r+m)*255,g:(g+m)*255,b:(b+m)*255};
+}
+
+function setColor(hex){
+  currentColor = hex;
+  const palette = generatePalette(hex);
+  COLORS = palette.colors;
+  CHART_COLORS_PPTX = palette.pptxColors;
+
+  const rgb = hexToRgb(hex);
+  document.documentElement.style.setProperty('--primary-color', hex);
+  document.documentElement.style.setProperty('--primary-rgb', rgb.r+','+rgb.g+','+rgb.b);
+
+  // Update accent-2 ~ accent-8 for CSS
+  for(let i=1;i<8;i++){
+    document.documentElement.style.setProperty('--accent-'+(i+1), COLORS[i]);
+  }
+
+  document.querySelectorAll('.theme-swatch').forEach(s=>{
+    s.classList.toggle('active', s.dataset.color === hex);
+  });
+  document.getElementById('customColor').value = hex;
+
+  renderChart();
+}
+
+function setCustomColor(hex){
+  setColor(hex);
+}
+
+function initThemeSwatches(){
+  const container = document.getElementById('themeSwatches');
+  PRESET_THEMES.forEach(t=>{
+    const sw = document.createElement('div');
+    sw.className = 'theme-swatch';
+    sw.style.backgroundColor = t.color;
+    sw.dataset.color = t.color;
+    sw.title = t.name;
+    sw.onclick = () => setColor(t.color);
+    container.appendChild(sw);
+  });
+  setColor(currentColor);
+}
+
 // ===================== STATE =====================
-const COLORS = ['#0070a0','#2c90c9','#1b9cca','#66c7a0','#faea73','#e07a5f','#81b29a','#f2cc8f'];
-const CHART_COLORS_PPTX = ['0070A0','2C90C9','1B9CCA','66C7A0','FAEA73','E07A5F','81B29A','F2CC8F'];
+let COLORS = ['#0070a0','#2c90c9','#1b9cca','#66c7a0','#faea73','#e07a5f','#81b29a','#f2cc8f'];
+let CHART_COLORS_PPTX = ['0070A0','2C90C9','1B9CCA','66C7A0','FAEA73','E07A5F','81B29A','F2CC8F'];
 
 let rows = [
   {id:1,time:'2024-01',name:'产品A',value:120},
@@ -265,14 +427,14 @@ let rows = [
 ];
 let nextId = 6;
 
-// PPTX slide dimensions (16:9) in inches
-const SLIDE_W = 10;      // 10 inches
-const SLIDE_H = 5.625;   // 5.625 inches (16:9)
-const MARGIN = 0.5;      // 0.5 inch margin on each side
-const CONTENT_W = SLIDE_W - MARGIN * 2;  // 9 inches content width
+const SLIDE_W = 10;
+const SLIDE_H = 5.625;
+const MARGIN = 0.5;
+const CONTENT_W = SLIDE_W - MARGIN * 2;
 
 // ===================== INIT =====================
 document.addEventListener('DOMContentLoaded',()=>{
+  initThemeSwatches();
   renderDataRows();
   renderChart();
   window.addEventListener('scroll',()=>{
@@ -374,7 +536,6 @@ function renderChart(){
     const label=row.time?row.time+' '+row.name:row.name;
     html+=`<rect x="${x}" y="${y}" width="${barW}" height="${bh}" rx="4" fill="${c}" opacity="0.85" style="cursor:pointer" onmouseenter="showTT(event,'${eH(label)}',${row.value})" onmousemove="moveTT(event)" onmouseleave="hideTT()"/>`;
     html+=`<text x="${x+barW/2}" y="${y-8}" text-anchor="middle" fill="#a0a0a0" font-size="11" font-family="Roboto Mono,Noto Sans SC,monospace">${row.value.toLocaleString()}</text>`;
-    // X-axis shows time + name (two lines)
     const xLabel=row.time?(row.time+'|'+row.name):row.name;
     const xLines=xLabel.split('|');
     xLines.forEach((line,li)=>{
@@ -440,7 +601,8 @@ function exportPPTX(){
   pptx.subject=title;
   pptx.title=title;
 
-  // Define master slide with proper black background
+  const primaryPptx = currentColor.replace('#','').toUpperCase();
+
   pptx.defineSlideMaster({
     title:'DARK_MASTER',
     background:{color:'101010'},
@@ -451,49 +613,41 @@ function exportPPTX(){
 
   // ===== 封面页 =====
   const s1=pptx.addSlide({masterName:'DARK_MASTER'});
-  // Full slide black background (exact inches)
   s1.addShape(pptx.shapes.RECTANGLE,{
     x:0, y:0, w:SLIDE_W, h:SLIDE_H,
     fill:{color:'101010'}
   });
-  // Title
   s1.addText(title,{
     x:MARGIN, y:2.8, w:CONTENT_W, h:0.8,
     fontSize:36, color:'F5F5F5', fontFace:'Microsoft YaHei',
     align:'center', bold:true
   });
-  // Subtitle
   s1.addText('自动生成 · 可视化分析 · 一键导出',{
     x:MARGIN, y:3.7, w:CONTENT_W, h:0.4,
     fontSize:14, color:'A0A0A0', fontFace:'Microsoft YaHei',
     align:'center'
   });
-  // Date
   s1.addText(today,{
     x:MARGIN, y:4.5, w:CONTENT_W, h:0.3,
     fontSize:11, color:'888888', fontFace:'Roboto Mono',
     align:'center'
   });
 
-  // ===== 图表页 (X轴=时间, Y轴=数值) =====
+  // ===== 图表页 =====
   const s2=pptx.addSlide({masterName:'DARK_MASTER'});
-  // Full slide black background
   s2.addShape(pptx.shapes.RECTANGLE,{
     x:0, y:0, w:SLIDE_W, h:SLIDE_H,
     fill:{color:'101010'}
   });
-  // Title
   s2.addText(title,{
     x:MARGIN, y:0.2, w:CONTENT_W, h:0.4,
     fontSize:16, color:'F5F5F5', fontFace:'Microsoft YaHei', bold:true
   });
-  // Top divider
   s2.addShape(pptx.shapes.RECTANGLE,{
     x:MARGIN, y:0.62, w:CONTENT_W, h:0.01,
     fill:{color:'333333'}
   });
 
-  // Chart: X-axis = time + name (two-line label), each bar = different color
   const timeLabels=rows.map(r=>{
     if(r.time&&r.name)return r.time+'\n'+r.name;
     return r.time||r.name;
@@ -501,7 +655,6 @@ function exportPPTX(){
   const chartValues=rows.map(r=>r.value);
   const barColors=rows.map((_,i)=>CHART_COLORS_PPTX[i%CHART_COLORS_PPTX.length]);
 
-  // Adjust font size based on data count
   const labelFontSize=rows.length>12?8:rows.length>8?10:11;
 
   s2.addChart(pptx.charts.BAR,[{
@@ -532,7 +685,6 @@ function exportPPTX(){
     showTitle:false
   });
 
-  // Bottom divider
   s2.addShape(pptx.shapes.RECTANGLE,{
     x:MARGIN, y:5.55, w:CONTENT_W, h:0.01,
     fill:{color:'333333'}
@@ -542,9 +694,8 @@ function exportPPTX(){
     fontSize:9, color:'555555', fontFace:'Roboto Mono', align:'right'
   });
 
-  // ===== 数据表页 (3列: 时间 名称 数值) =====
+  // ===== 数据表页 =====
   const s3=pptx.addSlide({masterName:'DARK_MASTER'});
-  // Full slide black background
   s3.addShape(pptx.shapes.RECTANGLE,{
     x:0, y:0, w:SLIDE_W, h:SLIDE_H,
     fill:{color:'101010'}
@@ -558,11 +709,9 @@ function exportPPTX(){
     fill:{color:'333333'}
   });
 
-  // Build 3-column table
   const tableData=[['时间','名称','数值']];
   rows.forEach(r=>tableData.push([r.time,r.name,String(r.value)]));
 
-  // Dynamic row height based on data count
   const maxTableH=4.6;
   const rowH=Math.min(0.45, maxTableH/(rows.length+1));
 
@@ -575,17 +724,16 @@ function exportPPTX(){
     colW:[CONTENT_W/3,CONTENT_W/3,CONTENT_W/3],
     fill:{color:'1A1A1A'},
     fillAltRows:{color:'222222'},
-    headerFill:{color:'0070A0'},
+    headerFill:{color:primaryPptx},
     headerColor:'FFFFFF',
     headerFontSize:13,
     headerBold:true,
-    headerBorder:{type:'solid',pt:0.5,color:'0070A0'},
+    headerBorder:{type:'solid',pt:0.5,color:primaryPptx},
     align:'center',
     valign:'middle',
     rowH:rowH
   });
 
-  // Bottom divider
   s3.addShape(pptx.shapes.RECTANGLE,{
     x:MARGIN, y:5.55, w:CONTENT_W, h:0.01,
     fill:{color:'333333'}
@@ -595,7 +743,6 @@ function exportPPTX(){
     fontSize:9, color:'555555', fontFace:'Roboto Mono', align:'right'
   });
 
-  // Save
   pptx.writeFile({fileName:title+'.pptx'});
 }
 
